@@ -1,0 +1,52 @@
+services:
+  openresty:
+    image: openresty/openresty
+    ports:
+      - "8080:80"
+    volumes:
+      - ./openresty/default.conf:/etc/nginx/conf.d/default.conf
+      - ./openresty/access.log:/etc/nginx/conf.d/access.log
+      - ./app/:/app
+    networks:
+      - productionNet
+    restart: always
+    depends_on:
+      - php_one
+      - php_two
+      - php_three
+      - php_four
+
+  php_one:
+    image: php:7-fpm
+    networks:
+      - productionNet
+    restart: always
+    volumes:
+      - ./app/:/app
+
+  php_two:
+    image: php:7-fpm
+    networks:
+      - productionNet
+    restart: always
+    volumes:
+      - ./app/:/app
+
+  php_three:
+    image: php:7-fpm
+    networks:
+      - productionNet
+    restart: always
+    volumes:
+      - ./app/:/app
+    
+  php_four:
+    image: php:7-fpm
+    networks:
+      - productionNet
+    restart: always
+    volumes:
+      - ./app/:/app
+
+networks:
+  productionNet:
