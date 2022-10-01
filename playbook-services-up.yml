@@ -1,0 +1,6 @@
+- name: Run Services
+  hosts: localhost
+  tasks:
+    - name: run services
+      community.docker.docker_compose:
+        project_src: services
