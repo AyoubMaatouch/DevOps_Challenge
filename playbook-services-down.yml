@@ -1,0 +1,8 @@
+- name: Shutdown Services
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: docker compose down
+      community.docker.docker_compose:
+        project_src: services
+        state: absent

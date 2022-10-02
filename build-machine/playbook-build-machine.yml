@@ -1,0 +1,18 @@
+# playbook to build dockerfile in build-machine
+    - name: Build docker image
+      hosts: localhost
+      gather_facts: false
+      tasks:
+        - name: Build docker image for build machine
+          docker_image:
+            build:
+              path: .
+            name: build_machine
+            tag: v1
+            source: build
+        - name: Runing build machine
+          docker_container:
+            name: build_container
+            image: build_machine
+            state: started
+# cron job to unrachive and archive the app every sooo minuts

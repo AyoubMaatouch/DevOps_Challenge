@@ -1,5 +1,6 @@
 - name: Run Services
   hosts: localhost
+  gather_facts: false
   tasks:
     - name: run services
       community.docker.docker_compose:
