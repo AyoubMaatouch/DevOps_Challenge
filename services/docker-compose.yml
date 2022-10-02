@@ -1,12 +1,14 @@
 services:
   openresty:
     image: openresty/openresty
+    container_name: openresty
     ports:
       - "8080:80"
     volumes:
       - ./openresty/default.conf:/etc/nginx/conf.d/default.conf
       - ./openresty/access.log:/etc/nginx/conf.d/access.log
       - ./app/:/app
+      - ./build/:/build
     networks:
       - productionNet
     restart: always
@@ -18,35 +20,43 @@ services:
 
   php_one:
     image: php:7-fpm
+    container_name: php_one
     networks:
       - productionNet
     restart: always
     volumes:
       - ./app/:/app
+      - ./build/:/build
 
   php_two:
     image: php:7-fpm
+    container_name: php_two
     networks:
       - productionNet
     restart: always
     volumes:
       - ./app/:/app
+      - ./build/:/build
 
   php_three:
     image: php:7-fpm
+    container_name: php_three
     networks:
       - productionNet
     restart: always
     volumes:
       - ./app/:/app
+      - ./build/:/build
     
   php_four:
     image: php:7-fpm
+    container_name: php_four
     networks:
       - productionNet
     restart: always
     volumes:
       - ./app/:/app
+      - ./build/:/build
 
 networks:
   productionNet:
