@@ -17,14 +17,6 @@
       register: result
     - debug:
         msg: "{{ result }}"
-    - name: cleanup build directory
-      community.docker.docker_container_exec:
-        container: php_one
-        command: rm -rf /build/*
-        chdir: /
-      register: result
-    - debug:
-        msg: "{{ result }}"
     - name: build machine down
       community.docker.docker_compose:
         project_src: build-machine
