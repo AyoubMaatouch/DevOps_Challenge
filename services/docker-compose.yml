@@ -1,9 +1,9 @@
 services:
   openresty:
     image: openresty/openresty
-    container_name: openresty
+    container_name: openresty_service
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - ./openresty/default.conf:/etc/nginx/conf.d/default.conf
       - ./openresty/access.log:/etc/nginx/conf.d/access.log
