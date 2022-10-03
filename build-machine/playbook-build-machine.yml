@@ -16,7 +16,7 @@
             volumes:
               - ../services/build/:/build
             ports:
-              - "80:9000"
+              - "5000:80"
             state: started
         - name: Creating Project Tarball
           community.docker.docker_container_exec:
@@ -36,3 +36,9 @@
             command: tar -xvf /build/app_comp.tar.gz -C /build/. 
             chdir: /
           register: result
+        # - name: starting Php Service
+        #   community.docker.docker_container_exec:
+        #     container:  build_container
+        #     command: service php7.4-fpm start
+        #     chdir: /
+        #   register: result

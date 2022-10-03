@@ -1,0 +1,26 @@
+services:
+  openresty:
+    image: openresty/openresty
+    container_name: openresty
+    ports:
+      - "8080:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ../services/build/:/build
+    networks:
+      - buildNet
+    restart: always
+    depends_on:
+      - php_build
+
+  php:
+    image: php:7-fpm
+    container_name: php_build
+    networks:
+      - buildNet
+    restart: always
+    volumes:
+      - ./app/:/app
+      - ./build/:/build
+networks:
+  buildNet:
