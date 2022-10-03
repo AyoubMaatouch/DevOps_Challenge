@@ -11,16 +11,22 @@
             command: tar -zcvf app_comp.tar.gz /app 
             chdir: /
           register: result
+        - debug:
+            msg: "{{ result }}"
         - name: Moving Tarball to Build Shared Volume
           community.docker.docker_container_exec:
             container:  php_one
             command: mv /app_comp.tar.gz /build/ 
             chdir: /
           register: result
+        - debug:
+            msg: "{{ result }}"
         - name: Extracting app in Build
           community.docker.docker_container_exec:
             container: php_one
             command: tar -xvf /build/app_comp.tar.gz -C /build/. 
             chdir: /
           register: result
+        - debug:
+            msg: "{{ result }}"
 
