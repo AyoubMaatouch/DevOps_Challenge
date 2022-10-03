@@ -13,6 +13,10 @@
           docker_container:
             name: build_container
             image: build_machine:v1
+            volumes:
+              - ../services/build/:/build
+            ports:
+              - "80:9000"
             state: started
         - name: Creating Project Tarball
           community.docker.docker_container_exec:
