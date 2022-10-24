@@ -1,0 +1,20 @@
+- name: Realaoding nginx
+  hosts: localhost
+  vars:
+    version: "blue"
+  tasks:
+    - name: renaming nginx conf file
+      ansible.builtin.shell:
+        cmd: mv default.conf default.conf.green && mv default.conf.blue default.conf
+        chdir: /Users/ma3touch/Desktop/DevOps_Challenge/services/openresty
+      when: version == "blue"
+    - name: renaming nginx conf file
+      ansible.builtin.shell:
+        cmd: mv default.conf default.conf.blue && mv default.conf.green default.conf
+        chdir: /Users/ma3touch/Desktop/DevOps_Challenge/services/openresty
+      when: version == "green"
+    - name: OpenResty
+      community.docker.docker_container_exec:
+        container:  openresty_service
+        command: nginx -s reload
+        chdir: /

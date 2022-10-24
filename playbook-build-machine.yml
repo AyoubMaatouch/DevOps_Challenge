@@ -1,32 +1,19 @@
-# playbook to build dockerfile in build-machine
-    - name: Build-machine init
+    - name: Build Machine Init
       hosts: localhost
+      vars:
+        version: "blue"
       tasks:
         - name: run build-machine
           community.docker.docker_compose:
             project_src: build-machine
-        - name: Creating Project Tarball
-          community.docker.docker_container_exec:
-            container:  php_one
-            command: tar -zcvf app_comp.tar.gz /app 
-            chdir: /
-          register: result
-        - debug:
-            msg: "{{ result }}"
-        - name: Moving Tarball to Build Shared Volume
-          community.docker.docker_container_exec:
-            container:  php_one
-            command: mv /app_comp.tar.gz /build/ 
-            chdir: /
-          register: result
-        - debug:
-            msg: "{{ result }}"
+        - name: Creating Project Tarball from app folder
+          ansible.builtin.shell:
+            cmd: tar -zcvf app_comp.tar.gz app && mv app_comp.tar.gz build/.
+            chdir: /Users/ma3touch/Desktop/DevOps_Challenge/services/
         - name: Extracting app in Build
-          community.docker.docker_container_exec:
-            container: php_one
-            command: tar -xvf /build/app_comp.tar.gz -C /build/. 
-            chdir: /
-          register: result
-        - debug:
-            msg: "{{ result }}"
+          ansible.builtin.shell:
+            cmd: tar -xvf build/app_comp.tar.gz -C build/. 
+            chdir: /Users/ma3touch/Desktop/DevOps_Challenge/services/
+
+
 

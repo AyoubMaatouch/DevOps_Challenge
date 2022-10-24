@@ -1,5 +1,8 @@
 - name: Push changes to services and Shutdown build-machine
   hosts: localhost
+  vars:
+    version: "blue"
+
   tasks:
     - name: compress build directory
       community.docker.docker_container_exec:
@@ -7,16 +10,12 @@
        command: tar -zcvf build_comp.tar.gz app
        chdir: /build
       register: result
-    - debug:
-        msg: "{{ result }}"
     - name: Extracting app in Build
       community.docker.docker_container_exec:
         container: php_one
         command: tar -xvf build_comp.tar.gz -C /
         chdir: /build
       register: result
-    - debug:
-        msg: "{{ result }}"
     - name: build machine down
       community.docker.docker_compose:
         project_src: build-machine

@@ -6,57 +6,54 @@ services:
       - "80:80"
     volumes:
       - ./openresty/default.conf:/etc/nginx/conf.d/default.conf
+      - ./openresty/default.conf:/etc/nginx/conf.d/default.conf.blue
       - ./openresty/access.log:/etc/nginx/conf.d/access.log
-      - ./app/:/app
-      - ./build/:/build
+      - ./app_blue/:/app_blue
+      - ./app_green/:/app_green
     networks:
       - productionNet
     restart: always
     depends_on:
-      - php_one
-      - php_two
-      - php_three
-      - php_four
+      - blue_one
+      - blue_two
+      - green_one
+      - green_two
 
-  php_one:
+  blue_one:
     image: php:7-fpm
-    container_name: php_one
+    container_name: blue_one
     networks:
       - productionNet
     restart: always
     volumes:
-      - ./app/:/app
-      - ./build/:/build
+      - ./app_blue/:/app_blue
 
-  php_two:
+  blue_two:
     image: php:7-fpm
-    container_name: php_two
+    container_name: blue_two
     networks:
       - productionNet
     restart: always
     volumes:
-      - ./app/:/app
-      - ./build/:/build
+      - ./app_blue/:/app_blue
 
-  php_three:
+  green_one:
     image: php:7-fpm
-    container_name: php_three
+    container_name: green_one
     networks:
       - productionNet
     restart: always
     volumes:
-      - ./app/:/app
-      - ./build/:/build
+      - ./app_green/:/app_green
     
-  php_four:
+  green_two:
     image: php:7-fpm
-    container_name: php_four
+    container_name: green_two
     networks:
       - productionNet
     restart: always
     volumes:
-      - ./app/:/app
-      - ./build/:/build
+      - ./app_green/:/app_green
 
 networks:
   productionNet:

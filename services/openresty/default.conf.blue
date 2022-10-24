@@ -2,8 +2,8 @@
 log_format  main  '$server_name to:  $upstream_addr "$request" ';
 
 upstream backend {
-    server green_one:9000;
-    server green_two:9000 backup;
+    server blue_one:9000;
+    server blue_two:9000 backup;
 }
 
 
@@ -14,7 +14,7 @@ server {
 
     access_log  /etc/nginx/conf.d/access.log  main;
 
-    root   /app_green/;
+    root   /app_blue/;
     index  index.php index.html index.htm;
 
     location ~\.php$ {
