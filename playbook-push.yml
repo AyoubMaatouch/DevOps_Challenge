@@ -1,21 +1,28 @@
-- name: Push changes to services and Shutdown build-machine
+- name: Push changes to blue or green Shutdown build-machine
   hosts: localhost
   vars:
     version: "blue"
 
   tasks:
     - name: compress build directory
-      community.docker.docker_container_exec:
-       container:  php_one
+      ansible.builtin.shell:
        command: tar -zcvf build_comp.tar.gz app
-       chdir: /build
-      register: result
-    - name: Extracting app in Build
-      community.docker.docker_container_exec:
-        container: php_one
+       chdir: /Users/ma3touch/Desktop/DevOps_Challenge/services/build
+      
+    - name: saving a copy of the build directory to app
+      ansible.builtin.shell:
         command: tar -xvf build_comp.tar.gz -C /
-        chdir: /build
-      register: result
+        chdir: /Users/ma3touch/Desktop/DevOps_Challenge/services/
+    - name: deploying to blue
+      ansible.builtin.shell:
+        command: tar -xvf build_comp.tar.gz -C /
+        chdir: /Users/ma3touch/Desktop/DevOps_Challenge/services/app_{version}
+      when: version == "blue"
+    - name: deploying to green
+      ansible.builtin.shell:
+        command: tar -xvf build_comp.tar.gz -C /
+        chdir: /Users/ma3touch/Desktop/DevOps_Challenge/services/app_{version}
+      when: version == "green"
     - name: build machine down
       community.docker.docker_compose:
         project_src: build-machine
